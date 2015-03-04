@@ -11,15 +11,15 @@ maxTagSize = 5
 dict = function.genDict()
 
 originalTaggedSents = treebank.tagged_sents()[0:size+size]
-coaseTaggedSet = function.toCoarseTaggedSet(dict, originalTaggedSents)
+coaseTaggedSet = function.toCoarseTaggedSet(dict, originalTaggedSents)          # change the fine tag to coarse tag
 
 trainSet = coaseTaggedSet[0:size]
 taggedTestSet = coaseTaggedSet[size:(size + size)]
 testSet = treebank.sents()[size:(size + size)]
 
-t0 = nltk.DefaultTagger('SNN')                               # train
+t0 = nltk.DefaultTagger('SNN')
 t1 = nltk.UnigramTagger(trainSet, backoff=t0)
-t2 = nltk.BigramTagger(trainSet, backoff=t1)
+t2 = nltk.BigramTagger(trainSet, backoff=t1)            # train
 
 wordCnt = 0
 predictions = []
@@ -29,9 +29,9 @@ tagList = []
 file = open('Method-B-predictions.tsv', 'w')
 
 for i in range(size):
-    prediction = t2.tag(testSet[i])
+    prediction = t2.tag(testSet[i])                         # use the model to predict the given word
     contrastResult = [i, taggedTestSet[i], prediction]
-    predictions.append(contrastResult)
+    predictions.append(contrastResult)                      # contrastResult saves the actual tag and predict tag
 
     file.write(str(i))
     file.write('\t')
@@ -50,11 +50,11 @@ for i in range(size):
                 if not actualTag in tagList:
                     tagList.append(actualTag)
                 if not predictTag in tagList:
-                    tagList.append(predictTag)
+                    tagList.append(predictTag)                      # save tags in tag list
 
                 y = tagList.index(actualTag)
                 x = tagList.index(predictTag)
-                confutionMatrix[y][x] = confutionMatrix[y][x] + 1
+                confutionMatrix[y][x] = confutionMatrix[y][x] + 1           # update confusion matrix
 
             file.write(word[0] + '/' + word[1])
         file.write('\t')
@@ -64,25 +64,25 @@ print('preditions saved in Method-B-predictions.tsv')
 
 # compute accuracy based on the confusion matrix
 
-accurateQ = Queue.PriorityQueue()
+accurateQ = Queue.PriorityQueue()                               # use priority queue to rank the accuracy
 accurateList = []
 accuratePredictCnt = 0
 
 for y in range(len(tagList)):
-    accuratePredictCnt = accuratePredictCnt + confutionMatrix[y][y]
-    accurateQ.put((100.0 * float(confutionMatrix[y][y]) / float(sum(confutionMatrix[y])), tagList[y]))
+    accuratePredictCnt = accuratePredictCnt + confutionMatrix[y][y]             # save the number of right predictions
+    accurateQ.put((100.0 * float(confutionMatrix[y][y]) / float(sum(confutionMatrix[y])), tagList[y]))      # compute accuracy for each tag
 
-overallAccuracy = 100.0 * float(accuratePredictCnt) / float(wordCnt)
+overallAccuracy = 100.0 * float(accuratePredictCnt) / float(wordCnt)            # compute the overall accuracy
 
 while not accurateQ.empty():
     accurateList.append(accurateQ.get())
 accurateList.reverse()
 
-function.saveConfusionMatrix(confutionMatrix, tagList, 'part-II-B-confusionMatrix.txt')
+function.saveConfusionMatrix(confutionMatrix, tagList, 'part-II-B-confusionMatrix.txt')             # save to disk
 function.saveAccuracy(accurateList, overallAccuracy, 'part-II-B-accuracy.txt')
 
 function.readAndDisPlay('part-II-B-accuracy.txt')
-function.readAndDisPlay('part-II-B-confusionMatrix.txt')
+function.readAndDisPlay('part-II-B-confusionMatrix.txt')            # display
 
 
 
