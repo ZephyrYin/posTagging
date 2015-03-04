@@ -58,6 +58,7 @@ for i in range(size):
         file.write('\t')
     file.write('\n')
 file.close()
+print('preditions saved in Method-A-predictions.tsv')
 
 # compute accuracy based on the confusion matrix
 
@@ -71,15 +72,15 @@ for y in range(len(tagList)):
 
 overallAccuracy = 100.0 * float(accuratePredictCnt) / float(wordCnt)
 
-print('words: ' + str(wordCnt))
-print('right tag cnt: ' + str(accuratePredictCnt))
-print('overallAccuraty: ' + str(overallAccuracy))
 while not accurateQ.empty():
     accurateList.append(accurateQ.get())
 accurateList.reverse()
 
 function.saveConfusionMatrix(confutionMatrix, tagList, 'part-II-A-confusionMatrix.txt')
 function.saveAccuracy(accurateList, overallAccuracy, 'part-II-A-accuracy.txt')
+
+function.readAndDisPlay('part-II-A-accuracy.txt')
+function.readAndDisPlay('part-II-A-confusionMatrix.txt')
 
 
 

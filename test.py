@@ -66,6 +66,7 @@ import function
 #
 # print(sum(list))
 
-dict = function.genDict()
-print(dict)
-print(function.coarseTag(dict, 'NN'))
+# dict = function.genDict()
+# print(dict)
+# print(function.coarseTag(dict, 'NN'))
+function.readAndDisPlay('part-II-B-accuracy.txt')

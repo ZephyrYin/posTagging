@@ -1,6 +1,5 @@
 __author__ = 'zephyryin'
 
-import copy
 
 def genDict():
     dict = {}
@@ -33,28 +32,24 @@ def toCoarseTag(dict, actualTag):
 def saveConfusionMatrix(conM, tList, fileName):              # write the confusion matrix to local confusionMatrix.txt
     wordLen = 6
     file = open(fileName, 'w')
-    for i in range(wordLen):
-        file.write(' ')
+    file.write(' ' * wordLen)
 
     for w in tList:
         file.write(' ')
         file.write(w)
-        for i in range(wordLen - len(w)):
-            file.write(' ')
+        file.write(' ' * (wordLen - len(w)))
     file.write('\n')
 
     for y in range(len(tList)):
         file.write(tList[y])
-        for i in range(wordLen - len(tList[y])):
-            file.write(' ')
+        file.write(' ' * (wordLen - len(tList[y])))
         for x in range(len(tList)):
             file.write(' ')
             file.write(str(conM[y][x]))
-            for i in range(wordLen - len(str(conM[y][x]))):
-                file.write(' ')
+            file.write(' ' * (wordLen - len(str(conM[y][x]))))
         file.write('\n')
-
     file.close()
+    print('confusionMatrix saved in ' + fileName)
 
 def saveAccuracy(accuList, overallAcu, fileName):
     wordLen = 6
@@ -62,10 +57,10 @@ def saveAccuracy(accuList, overallAcu, fileName):
     file.write('overall accuracy: ' + str(overallAcu) + '\n\n')
     for l in accuList:
         file.write(str(l[1]))
-        for i in range(wordLen - len(str(l[1]))):
-            file.write(' ')
+        file.write(' ' * (wordLen - len(str(l[1]))))
         file.write(' ' + str(l[0]) + '\n')
     file.close()
+    print('accuracy saved in ' + fileName)
 
 def toCoarseTaggedSet(dict, sents):
     cTaggedSents = []
@@ -77,3 +72,11 @@ def toCoarseTaggedSet(dict, sents):
             newSent.append(newWordTag)
         cTaggedSents.append(newSent)
     return cTaggedSents
+
+def readAndDisPlay(fileName):
+    file = open(fileName)
+    try:
+        all_the_text = file.read( )
+        print all_the_text
+    finally:
+        file.close( )
