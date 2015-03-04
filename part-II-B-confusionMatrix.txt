@@ -1,0 +1,6 @@
+       misc   SJJ    SNN    SRB    SVB   
+misc   5550   2      208    20     0     
+SJJ    5      347    451    23     10    
+SNN    6      19     3912   1      49    
+SRB    22     20     75     234    0     
+SVB    12     3      627    0      998   

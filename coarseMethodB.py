@@ -1,27 +1,32 @@
 __author__ = 'zephyryin'
 
 import Queue
-import function
 import nltk
+import function
 from nltk.corpus import treebank
 
+
 size = 500
-maxTagSize = 50
-trainSet = treebank.tagged_sents()[0:size]
-taggedTestSet = treebank.tagged_sents()[size:(size + size)]
+maxTagSize = 5
+dict = function.genDict()
+
+originalTaggedSents = treebank.tagged_sents()[0:size+size]
+coaseTaggedSet = function.toCoarseTaggedSet(dict, originalTaggedSents)
+
+trainSet = coaseTaggedSet[0:size]
+taggedTestSet = coaseTaggedSet[size:(size + size)]
 testSet = treebank.sents()[size:(size + size)]
 
-t0 = nltk.DefaultTagger('NN')                               # train
+t0 = nltk.DefaultTagger('SNN')                               # train
 t1 = nltk.UnigramTagger(trainSet, backoff=t0)
 t2 = nltk.BigramTagger(trainSet, backoff=t1)
 
 wordCnt = 0
 predictions = []
-dict = {}
 confutionMatrix = [[0 for col in range(maxTagSize)] for row in range(maxTagSize)]
 tagList = []
 
-file = open('part-I-predictions.tsv', 'w')
+file = open('Method-B-predictions.tsv', 'w')
 
 for i in range(size):
     prediction = t2.tag(testSet[i])
@@ -38,8 +43,10 @@ for i in range(size):
 
             if j == 2:
                 wordCnt = wordCnt + 1
+
                 actualTag = contrastResult[1][k][1]
                 predictTag = contrastResult[2][k][1]
+
                 if not actualTag in tagList:
                     tagList.append(actualTag)
                 if not predictTag in tagList:
@@ -73,11 +80,8 @@ while not accurateQ.empty():
     accurateList.append(accurateQ.get())
 accurateList.reverse()
 
-function.saveConfusionMatrix(confutionMatrix, tagList, 'part-I-confusionMatrix.txt')
-function.saveAccuracy(accurateList, overallAccuracy, 'part-I-accuracy.txt')
-
-
-
+function.saveConfusionMatrix(confutionMatrix, tagList, 'part-II-B-confusionMatrix.txt')
+function.saveAccuracy(accurateList, overallAccuracy, 'part-II-B-accuracy.txt')
 
 
 

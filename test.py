@@ -1,27 +1,28 @@
 __author__ = 'zephyryin'
 
-import Queue
+#import Queue
+import function
 
 # names = [('NN','NN'), ('Bob','jack'), ('Tracy','jack'), ('jack','NN'), ('Bob','Bob'),('bob','NN')]
 # print(names)
-names = ['NN','JJ','NMB','fuck']
-scores = [95, 75, 85, 56]
-
-
-l = []
-l.append((0.5,'a'))
-l.append((0.34,'b'))
-l.append((0.03,'c'))
-
-print(l)
-
-scores.reverse()
-file = open('accuracy.txt', 'w')
-
-for s in l:
-    file.write(str(s[1]) + ' ' + str(s[0]))
-    file.write('\n')
-file.close()
+# names = ['NN','JJ','NMB','fuck']
+# scores = [95, 75, 85, 56]
+#
+#
+# l = []
+# l.append((0.5,'a'))
+# l.append((0.34,'b'))
+# l.append((0.03,'c'))
+#
+# print(l)
+#
+# scores.reverse()
+# file = open('accuracy.txt', 'w')
+#
+# for s in l:
+#     file.write(str(s[1]) + ' ' + str(s[0]))
+#     file.write('\n')
+# file.close()
 #file.write(str(scores))
 
 # list = queue.PriorityQueue
@@ -65,3 +66,6 @@ file.close()
 #
 # print(sum(list))
 
+dict = function.genDict()
+print(dict)
+print(function.coarseTag(dict, 'NN'))
